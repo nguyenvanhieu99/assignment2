@@ -152,6 +152,7 @@ public class DepartmentManage implements Config {
 				break;
 			}
 			case REPORT:{
+				report();
 				break;
 			}
 
@@ -159,16 +160,61 @@ public class DepartmentManage implements Config {
 		}
 
 	}
-
-	private void search() {
-		Scanner scanf = new Scanner(System.in);
-		System.out.print("\n Enter Department: ");
-		String firstName = scanf.nextLine();
-		
-		// TODO Auto-generated method stub
+	private void report() {
+		for(Department department :listDepartment) {
+			System.out.print("Department "+department.getDepartmentName()
+					+ " have " +department.getListOfEmployee().size() +" employee \n");
+		}
+	
 		
 	}
 
+	public void  search() {
+		Scanner scanf = new Scanner(System.in);
+		System.out.print("\n 1. Find employee by department \n"
+				+ "2. Find employee by name :  ");
+		int typeFind = scanf.nextInt();
+		if(typeFind == FINDBYDEPARTMENT) {
+			searchDepartment();
+		}else searchEmployee();
+	}
+	private void searchDepartment() {
+		Scanner scanf = new Scanner(System.in);
+		System.out.print("\n Enter Department(1:it:hr,2:other): ");
+		int typeofDepartment = scanf.nextInt();
+		String nameofdepartment ="orther";
+		
+		if(typeofDepartment == HR) {
+			nameofdepartment="hr";
+		}
+		else if ((typeofDepartment == IT)) {
+			nameofdepartment ="it";
+		}
+		for(Department department : listDepartment) {
+			 if(nameofdepartment.equalsIgnoreCase(department.getDepartmentName())) {
+				 System.out.print("employee belong to "+nameofdepartment+"\n");
+
+				 for(Employee employee: department.getListOfEmployee()) {
+					 employee.Display();
+				 }
+			 }
+		}
+		
+	}
+	public void searchEmployee() {
+		Scanner scanf = new Scanner(System.in);
+		System.out.print("\n Enter employee name  ");
+		String employeeName = scanf.nextLine();
+		for(Department department : listDepartment) {
+			for(Employee employee: department.getListOfEmployee()) {
+				if(employee.getFirstName().equalsIgnoreCase(employeeName)) {
+					System.out.print("found the employee name "+employeeName+"\n" );
+					employee.Display();
+				}
+			}
+		}
+		
+	}
 	private void classifyEmployee() {
 		System.out.print("Hour Employee:  \n");
 		for(Department department : listDepartment) {
@@ -182,7 +228,7 @@ public class DepartmentManage implements Config {
 		for(Department department : listDepartment) {
 			for(Object employee: department.getListOfEmployee()) {
 				if(employee instanceof SalariedEmployee) {
-					((HourlyEmployee) employee).Display();
+					 ((SalariedEmployee) employee).Display();
 				}
 			}
 		}
